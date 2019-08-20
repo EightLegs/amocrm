@@ -1,3 +1,3 @@
-module github.com/lobz1g/amocrm
+module github.com/vozerov/amocrm
 
 go 1.12

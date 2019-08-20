@@ -1,7 +1,7 @@
 package amocrm
 
 import (
-	"github.com/lobz1g/amocrm/models"
+	"github.com/vozerov/amocrm/models"
 )
 
 type amo struct {
