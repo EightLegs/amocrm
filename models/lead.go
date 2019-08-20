@@ -30,7 +30,7 @@ type (
 		}
 		ClosedAt      int           `json:"closed_at"`
 		ClosestTaskAt int           `json:"closest_task_at"`
-		CustomFields  []customField `json:"custom_fields"`
+		CustomFields  []CustomField `json:"custom_fields"`
 		Contacts      struct {
 			Id []int
 		}

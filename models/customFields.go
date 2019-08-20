@@ -1,7 +1,7 @@
 package models
 
 type (
-	customField struct {
+	CustomField struct {
 		Id     int
 		Name   string
 		Values []struct {
