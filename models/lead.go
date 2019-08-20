@@ -82,6 +82,16 @@ func (l Ld) Status(id int) ([]*lead, error) {
 	return l.multiplyRequest(url)
 }
 
+// Method gets all leads by query from API AmoCRM
+//
+// Example
+//    api := amocrm.NewAmo("login", "key", "domain")
+//    leads, _ := api.Lead.Query("+79671234567")
+func (l Ld) Query(query string) ([]*lead, error) {
+    url := constructUrlWithQuery(leadUrl, query)
+    return l.multiplyRequest(url)
+}
+
 func (l Ld) multiplyRequest(url string) ([]*lead, error) {
 	leads := allLeads{}
 	// API returns only 500 rows per request

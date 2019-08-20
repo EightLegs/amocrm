@@ -24,6 +24,10 @@ func constructUrlWithStatus(url string, id int) string {
 	return url + "?responsible_user_id=" + strconv.Itoa(id)
 }
 
+func constructUrlWithQuery(url string, query string) string {
+    return url + "?query=" + query
+}
+
 func constructUrlWithOffset(url string, rows int) string {
 	var newUrl string
 	if strings.Contains(url, "?") {
