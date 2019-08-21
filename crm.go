@@ -4,7 +4,7 @@ import (
 	"github.com/vozerov/amocrm/models"
 )
 
-type amo struct {
+type Amo struct {
 	Account models.Acc
 	Company models.Cmpn
 	Lead    models.Ld
@@ -13,7 +13,7 @@ type amo struct {
 	Note    models.Nt
 }
 
-func NewAmo(login, key, domain string) *amo {
+func NewAmo(login, key, domain string) *Amo {
 	models.OpenConnection(login, key, domain)
-	return &amo{}
+	return &Amo{}
 }
