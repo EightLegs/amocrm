@@ -8,6 +8,7 @@ type amo struct {
 	Account models.Acc
 	Company models.Cmpn
 	Lead    models.Ld
+	Contact models.Ct
 	Task    models.Tsk
 	Note    models.Nt
 }
