@@ -9,17 +9,23 @@ type (
 		request request
 	}
 
+	Tags struct {
+		Id   int    `json:"id"`
+		Name string `json:"name"`
+	}
+
 	lead struct {
 		Id                int
 		Name              string
-		ResponsibleUserId int   `json:"responsible_user_id"`
-		CreatedBy         int   `json:"created_by"`
-		CreatedAt         int64 `json:"created_at"`
-		UpdatedAt         int64 `json:"updated_at"`
-		AccountId         int   `json:"account_id"`
-		PipelineId        int   `json:"pipeline_id"`
-		StatusId          int   `json:"status_id"`
-		IsDeleted         bool  `json:"is_deleted"`
+		ResponsibleUserId int         `json:"responsible_user_id"`
+		CreatedBy         int         `json:"created_by"`
+		CreatedAt         int64       `json:"created_at"`
+		UpdatedAt         int64       `json:"updated_at"`
+		AccountId         int         `json:"account_id"`
+		PipelineId        int         `json:"pipeline_id"`
+		StatusId          int         `json:"status_id"`
+		IsDeleted         bool        `json:"is_deleted"`
+		Tags              []TagsField `json:"tags"`
 		MainContact       struct {
 			Id int
 		}
@@ -88,8 +94,8 @@ func (l Ld) Status(id int) ([]*lead, error) {
 //    api := amocrm.NewAmo("login", "key", "domain")
 //    leads, _ := api.Lead.Query("+79671234567")
 func (l Ld) Query(query string) ([]*lead, error) {
-    url := constructUrlWithQuery(leadUrl, query)
-    return l.multiplyRequest(url)
+	url := constructUrlWithQuery(leadUrl, query)
+	return l.multiplyRequest(url)
 }
 
 func (l Ld) multiplyRequest(url string) ([]*lead, error) {
@@ -158,6 +164,9 @@ func (l Ld) Add(ld *lead) (int, error) {
 	if len(ld.CustomFields) != 0 {
 		data["custom_fields"] = ld.CustomFields
 	}
+	if len(ld.Tags) != 0 {
+		data["tags"] = ld.Tags
+	}
 
 	fullData := map[string][]interface{}{"add": {data}}
 	jsonData, _ := json.Marshal(fullData)
@@ -195,6 +204,9 @@ func (l Ld) Update(ld *lead) error {
 	data["created_by"] = ld.CreatedBy
 	if len(ld.Contacts.Id) != 0 {
 		data["contacts_id"] = getStrFromArr(ld.Contacts.Id)
+	}
+	if len(ld.Tags) != 0 {
+		data["tags"] = ld.Tags
 	}
 
 	fullData := map[string][]interface{}{"update": {data}}
