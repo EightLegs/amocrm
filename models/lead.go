@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 type (
@@ -165,11 +166,16 @@ func (l Ld) Add(ld *lead) (int, error) {
 		data["custom_fields"] = ld.CustomFields
 	}
 	if len(ld.Tags) != 0 {
-		data["tags"] = ld.Tags
+		res := make([]int, 0)
+		for _, val := range ld.Tags {
+			res = append(res, val.Id)
+		}
+		data["tags"] = res
 	}
 
 	fullData := map[string][]interface{}{"add": {data}}
 	jsonData, _ := json.Marshal(fullData)
+	fmt.Printf("Sending data: %s", jsonData)
 
 	resp, err := l.request.Post(leadUrl, jsonData)
 	if err != nil {
@@ -206,11 +212,16 @@ func (l Ld) Update(ld *lead) error {
 		data["contacts_id"] = getStrFromArr(ld.Contacts.Id)
 	}
 	if len(ld.Tags) != 0 {
-		data["tags"] = ld.Tags
+		res := make([]int, 0)
+		for _, val := range ld.Tags {
+			res = append(res, val.Id)
+		}
+		data["tags"] = res
 	}
 
 	fullData := map[string][]interface{}{"update": {data}}
 	jsonData, _ := json.Marshal(fullData)
+	fmt.Printf("Sending data: %s", jsonData)
 
 	_, err := l.request.Post(leadUrl, jsonData)
 	if err != nil {
