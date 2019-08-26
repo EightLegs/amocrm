@@ -9,7 +9,7 @@ type (
 		request request
 	}
 
-	Tags struct {
+	TagsField struct {
 		Id   int    `json:"id"`
 		Name string `json:"name"`
 	}

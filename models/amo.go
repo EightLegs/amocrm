@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -10,6 +11,7 @@ import (
 
 const limit = 500
 const delay = 25 * time.Millisecond
+const refreshInterval = 1
 
 type (
 	amoSettings struct {
@@ -39,12 +41,31 @@ func OpenConnection(login, key, domain string) error {
 	if err != nil {
 		return err
 	}
+
+	go refresher()
+
 	return nil
+}
+
+func (c *amoSettings) refresher() {
+	ticker := time.NewTicker(refreshInterval * time.Minute)
+
+	for {
+		select {
+		case <-ticker.C:
+			log.Printf("Updating token at %s", t)
+			err := client.open()
+			if err != nil {
+				return err
+			}
+		}
+	}
 }
 
 func (c *amoSettings) open() error {
 	jar := newJar()
-	c.Client = http.Client{Jar: jar, Timeout: 15 * time.Minute, CheckRedirect: nil, Transport: nil}
+	cl := http.Client{Jar: jar, Timeout: 15 * time.Minute, CheckRedirect: nil, Transport: nil}
+	// c.Client = http.Client{Jar: jar, Timeout: 15 * time.Minute, CheckRedirect: nil, Transport: nil}
 
 	values := url.Values{
 		"USER_LOGIN": {c.Cfg.Login},
@@ -52,7 +73,7 @@ func (c *amoSettings) open() error {
 	}
 
 	time.Sleep(delay)
-	resp, err := c.Client.PostForm(getUrl(authUrl), values)
+	resp, err := cl.PostForm(getUrl(authUrl), values)
 	if err != nil {
 		return err
 	}
@@ -60,6 +81,8 @@ func (c *amoSettings) open() error {
 		return errors.New(resp.Status)
 	}
 	defer resp.Body.Close()
+
+	c.Client = cl
 	return nil
 }
 
