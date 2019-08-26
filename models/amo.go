@@ -42,7 +42,7 @@ func OpenConnection(login, key, domain string) error {
 		return err
 	}
 
-	go refresher()
+	go client.refresher()
 
 	return nil
 }
@@ -52,11 +52,11 @@ func (c *amoSettings) refresher() {
 
 	for {
 		select {
-		case <-ticker.C:
+		case t := <-ticker.C:
 			log.Printf("Updating token at %s", t)
 			err := client.open()
 			if err != nil {
-				return err
+				log.Printf("Got error while updating: %s", err)
 			}
 		}
 	}
