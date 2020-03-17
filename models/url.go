@@ -8,7 +8,7 @@ import (
 const authUrl = "/private/api/auth.php?type=json"
 const accountUrl = "/api/v2/account?with=users,pipelines,groups,note_types,task_types,custom_fields"
 const companyUrl = "/api/v2/companies"
-const leadUrl = "/api/v2/leads"
+const leadUrl = "/api/v2/leads?with=loss_reason_name"
 const contactUrl = "/api/v2/contacts"
 const taskUrl = "/api/v2/tasks"
 const noteUrl = "/api/v2/notes"
