@@ -28,8 +28,8 @@ type (
 		IsDeleted         bool        `json:"is_deleted"`
 		Tags              []TagsField `json:"tags"`
 		MainContact       struct {
-			Id int
-		}
+			Id int `json:"id"`
+		} `json:"main_contact"`
 		GroupId int `json:"group_id"`
 		Company struct {
 			Id   int
@@ -41,10 +41,10 @@ type (
 		Contacts      struct {
 			Id []int
 		}
-		Sale         int
-		LossReasonId int `json:"loss_reason_id"`
+		Sale           int
+		LossReasonId   int    `json:"loss_reason_id"`
 		LossReasonName string `json:"loss_reason_name"`
-		Pipeline     struct {
+		Pipeline       struct {
 			Id int
 		}
 	}
