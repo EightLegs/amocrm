@@ -43,6 +43,7 @@ type (
 		}
 		Sale         int
 		LossReasonId int `json:"loss_reason_id"`
+		LossReasonName string `json:"loss_reason_name"`
 		Pipeline     struct {
 			Id int
 		}
