@@ -2,7 +2,7 @@ package models
 
 import (
 	"errors"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -53,10 +53,10 @@ func (c *amoSettings) refresher() {
 	for {
 		select {
 		case t := <-ticker.C:
-			log.Printf("Updating token at %s", t)
+			log.Infof("Updating token at %s", t)
 			err := client.open()
 			if err != nil {
-				log.Printf("Got error while updating: %s", err)
+				log.Errorf("Got error while updating: %s", err)
 			}
 		}
 	}

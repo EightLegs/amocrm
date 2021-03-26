@@ -2,7 +2,9 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
+	// "fmt"
+
+	log "github.com/sirupsen/logrus"
 )
 
 type (
@@ -176,7 +178,10 @@ func (l Ld) Add(ld *lead) (int, error) {
 
 	fullData := map[string][]interface{}{"add": {data}}
 	jsonData, _ := json.Marshal(fullData)
-	fmt.Printf("Sending data: %s", jsonData)
+	log.WithFields(log.Fields{
+		"data": jsonData,
+	}).Debug("Sending data")
+	// fmt.Printf("Sending data: %s", jsonData)
 
 	resp, err := l.request.Post(leadUrl, jsonData)
 	if err != nil {
@@ -222,7 +227,10 @@ func (l Ld) Update(ld *lead) error {
 
 	fullData := map[string][]interface{}{"update": {data}}
 	jsonData, _ := json.Marshal(fullData)
-	fmt.Printf("Sending data: %s", jsonData)
+	// fmt.Printf("Sending data: %s", jsonData)
+	log.WithFields(log.Fields{
+		"data": jsonData,
+	}).Debug("Sending data")
 
 	_, err := l.request.Post(leadUrl, jsonData)
 	if err != nil {
