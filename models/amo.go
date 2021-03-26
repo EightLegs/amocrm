@@ -2,11 +2,12 @@ package models
 
 import (
 	"errors"
-	log "github.com/sirupsen/logrus"
 	"net/http"
 	"net/url"
 	"strconv"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 )
 
 const limit = 500
