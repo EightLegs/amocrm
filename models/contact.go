@@ -9,7 +9,12 @@ type (
 		request request
 	}
 
-    contact struct {
+	// TagsField struct {
+	// 	Id   int    `json:"id"`
+	// 	Name string `json:"name"`
+	// }
+
+	contact struct {
 		Id                int
 		Name              string
 		ResponsibleUserId int   `json:"responsible_user_id"`
@@ -17,15 +22,16 @@ type (
 		CreatedAt         int64 `json:"created_at"`
 		UpdatedAt         int64 `json:"updated_at"`
 		AccountId         int   `json:"account_id"`
-		UpdatedBy		  int   `json:"updated_by"`
-		GroupId int `json:"group_id"`
-		Company struct {
+		UpdatedBy         int   `json:"updated_by"`
+		GroupId           int   `json:"group_id"`
+		Company           struct {
 			Id   int
 			Name string
 		}
 		Leads struct {
-		  Id []int `json:"id"`
+			Id []int `json:"id"`
 		} `json:"leads"`
+		Tags          []TagsField   `json:"tags"`
 		ClosestTaskAt int           `json:"closest_task_at"`
 		CustomFields  []CustomField `json:"custom_fields"`
 	}
@@ -67,8 +73,8 @@ func (c Ct) Responsible(id int) ([]*contact, error) {
 //    api := amocrm.NewAmo("login", "key", "domain")
 //    leads, _ := api.Contact.Query("+79671234567")
 func (c Ct) Query(query string) ([]*contact, error) {
-    url := constructUrlWithQuery(contactUrl, query)
-    return c.multiplyRequest(url)
+	url := constructUrlWithQuery(contactUrl, query)
+	return c.multiplyRequest(url)
 }
 
 func (c Ct) multiplyRequest(url string) ([]*contact, error) {
@@ -125,7 +131,13 @@ func (c Ct) Add(ct *contact) (int, error) {
 	if len(ct.CustomFields) != 0 {
 		data["custom_fields"] = ct.CustomFields
 	}
-
+	if len(ct.Tags) != 0 {
+		res := make([]int, 0)
+		for _, val := range ct.Tags {
+			res = append(res, val.Id)
+		}
+		data["tags"] = res
+	}
 	fullData := map[string][]interface{}{"add": {data}}
 	jsonData, _ := json.Marshal(fullData)
 
@@ -157,6 +169,13 @@ func (c Ct) Update(ct *contact) error {
 	data["responsible_user_id"] = ct.ResponsibleUserId
 	data["custom_fields"] = ct.CustomFields
 	data["created_by"] = ct.CreatedBy
+	if len(ct.Tags) != 0 {
+		res := make([]int, 0)
+		for _, val := range ct.Tags {
+			res = append(res, val.Id)
+		}
+		data["tags"] = res
+	}
 
 	fullData := map[string][]interface{}{"update": {data}}
 	jsonData, _ := json.Marshal(fullData)

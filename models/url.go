@@ -26,7 +26,7 @@ func constructUrlWithStatus(url string, id int) string {
 }
 
 func constructUrlWithQuery(url string, query string) string {
-    return url + "?query=" + query
+	return url + "?query=" + query
 }
 
 func constructUrlWithOffset(url string, rows int) string {
