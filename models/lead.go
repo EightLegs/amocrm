@@ -180,7 +180,7 @@ func (l Ld) Add(ld *lead) (int, error) {
 	jsonData, _ := json.Marshal(fullData)
 	log.WithFields(log.Fields{
 		"data": jsonData,
-	}).Debug("Sending data")
+	}).Info("Sending data")
 	// fmt.Printf("Sending data: %s", jsonData)
 
 	resp, err := l.request.Post(leadUrl, jsonData)
@@ -230,7 +230,7 @@ func (l Ld) Update(ld *lead) error {
 	// fmt.Printf("Sending data: %s", jsonData)
 	log.WithFields(log.Fields{
 		"data": jsonData,
-	}).Debug("Sending data")
+	}).Info("Sending data")
 
 	_, err := l.request.Post(leadUrl, jsonData)
 	if err != nil {

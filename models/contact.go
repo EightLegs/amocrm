@@ -142,7 +142,7 @@ func (c Ct) Add(ct *contact) (int, error) {
 	jsonData, _ := json.Marshal(fullData)
 	log.WithFields(log.Fields{
 		"data": jsonData,
-	}).Debug("Sending data")
+	}).Info("Sending data")
 	
 	resp, err := c.request.Post(contactUrl, jsonData)
 	if err != nil {
@@ -184,7 +184,7 @@ func (c Ct) Update(ct *contact) error {
 	jsonData, _ := json.Marshal(fullData)
 	log.WithFields(log.Fields{
 		"data": jsonData,
-	}).Debug("Sending data")
+	}).Info("Sending data")
 	_, err := c.request.Post(contactUrl, jsonData)
 	if err != nil {
 		return err
