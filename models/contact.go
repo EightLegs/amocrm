@@ -140,7 +140,10 @@ func (c Ct) Add(ct *contact) (int, error) {
 	}
 	fullData := map[string][]interface{}{"add": {data}}
 	jsonData, _ := json.Marshal(fullData)
-
+	log.WithFields(log.Fields{
+		"data": jsonData,
+	}).Debug("Sending data")
+	
 	resp, err := c.request.Post(contactUrl, jsonData)
 	if err != nil {
 		return 0, err
@@ -179,7 +182,9 @@ func (c Ct) Update(ct *contact) error {
 
 	fullData := map[string][]interface{}{"update": {data}}
 	jsonData, _ := json.Marshal(fullData)
-
+	log.WithFields(log.Fields{
+		"data": jsonData,
+	}).Debug("Sending data")
 	_, err := c.request.Post(contactUrl, jsonData)
 	if err != nil {
 		return err
