@@ -186,16 +186,20 @@ func (l Ld) Add(ld *lead) (int, error) {
 
 	fullData := map[string][]interface{}{"add": {data}}
 	jsonData, _ := json.Marshal(fullData)
-	// log.WithFields(log.Fields{
-	// 	"data": jsonData,
-	// }).Info("Sending data")
-	// fmt.Printf("Sending data: %s", jsonData)
-	log.Debugf("Json data for lead create: %s", jsonData)
+
+	log.WithFields(log.Fields{
+		"data": fmt.Sprintf("%s", jsonData),
+	}).Debug("Sending data")
 
 	resp, err := l.request.Post(leadUrl, jsonData)
 	if err != nil {
 		return 0, err
 	}
+
+	log.WithFields(log.Fields{
+		"data": fmt.Sprintf("%s", resp),
+	}).Debug("Responce data")
+	
 	var newLead allLeads
 	json.Unmarshal(resp, &newLead)
 	return newLead.Embedded.Items[0].Id, nil
