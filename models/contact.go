@@ -1,9 +1,10 @@
 package models
 
 import (
-	"time"
-	"fmt"
 	"encoding/json"
+	"fmt"
+	"strconv"
+	"time"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -148,9 +149,13 @@ func (c Ct) Add(ct *contact) (int, error) {
 		data["custom_fields"] = ct.CustomFields
 	}
 	if len(ct.Tags) != 0 {
-		res := make([]int, 0)
+		res := make([]string, 0)
 		for _, val := range ct.Tags {
-			res = append(res, val.Id)
+			if val.Id != 0 {
+				res = append(res, strconv.Itoa(val.Id))
+			} else {
+				res = append(res, val.Name)
+			}
 		}
 		data["tags"] = res
 	}
@@ -196,9 +201,13 @@ func (c Ct) Update(ct *contact) error {
 	data["custom_fields"] = ct.CustomFields
 	data["created_by"] = ct.CreatedBy
 	if len(ct.Tags) != 0 {
-		res := make([]int, 0)
+		res := make([]string, 0)
 		for _, val := range ct.Tags {
-			res = append(res, val.Id)
+			if val.Id != 0 {
+				res = append(res, strconv.Itoa(val.Id))
+			} else {
+				res = append(res, val.Name)
+			}
 		}
 		data["tags"] = res
 	}

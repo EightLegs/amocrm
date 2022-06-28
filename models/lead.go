@@ -3,6 +3,7 @@ package models
 import (
 	"encoding/json"
 	"fmt"
+	"strconv"
 	"time"
 
 	log "github.com/sirupsen/logrus"
@@ -177,9 +178,13 @@ func (l Ld) Add(ld *lead) (int, error) {
 		data["custom_fields"] = ld.CustomFields
 	}
 	if len(ld.Tags) != 0 {
-		res := make([]int, 0)
+		res := make([]string, 0)
 		for _, val := range ld.Tags {
-			res = append(res, val.Id)
+			if val.Id != 0 {
+				res = append(res, strconv.Itoa(val.Id))
+			} else {
+				res = append(res, val.Name)
+			}
 		}
 		data["tags"] = res
 	}
@@ -232,9 +237,13 @@ func (l Ld) Update(ld *lead) error {
 		data["contacts_id"] = getStrFromArr(ld.Contacts.Id)
 	}
 	if len(ld.Tags) != 0 {
-		res := make([]int, 0)
+		res := make([]string, 0)
 		for _, val := range ld.Tags {
-			res = append(res, val.Id)
+			if val.Id != 0 {
+				res = append(res, strconv.Itoa(val.Id))
+			} else {
+				res = append(res, val.Name)
+			}
 		}
 		data["tags"] = res
 	}
