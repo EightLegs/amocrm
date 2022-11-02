@@ -187,6 +187,8 @@ func (l Ld) Add(ld *lead) (int, error) {
 			}
 		}
 		data["tags"] = res
+		log.Infof("The final data tags are %s", data["tags"])
+		
 	}
 
 	fullData := map[string][]interface{}{"add": {data}}
