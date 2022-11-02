@@ -187,6 +187,7 @@ func (l Ld) Add(ld *lead) (int, error) {
 			}
 		}
 		data["tags"] = res
+		log.Debugf("The final Update function lead tags: %s", lead.Tags)
 	}
 
 	fullData := map[string][]interface{}{"add": {data}}
