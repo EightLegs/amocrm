@@ -1,4 +1,4 @@
-module github.com/bkmz/amocrm
+module github.com/EightLegs/amocrm
 
 go 1.14
 
